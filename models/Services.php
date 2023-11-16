@@ -53,4 +53,9 @@ class Services extends \yii\db\ActiveRecord
             'image' => 'Image',
         ];
     }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
 }

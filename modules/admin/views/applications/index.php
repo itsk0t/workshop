@@ -17,10 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -39,7 +35,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>'services.title'],
             ['attribute'=>'user_id',
                 'value'=>'user.username'],
-            'status',
+            [
+                    'attribute' => 'status',
+                    'value' => function($data){return $data->getStatus();},
+            ],
+            [
+                    'attribute'=>'Администрирование',
+                    'format'=>'html',
+                    'value'=>function($data){
+                        switch ($data->status) {
+                            case 0:
+                                return Html::a('Одобрить', Url::toRoute(['applications/good']))."|".Html::a('Отклонить', Url::toRoute(['applications/verybad']));
+                            case 1:
+                                return Html::a('Одобрить', Url::toRoute(['applications/good']));
+                            case 2:
+                                return Html::a('Отклонить', Url::toRoute(['applications/verybad']));
+                        }
+                    }
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Applications $model, $key, $index, $column) {

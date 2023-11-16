@@ -101,4 +101,16 @@ class Applications extends \yii\db\ActiveRecord
             case 2: return 'p-3 mb-2 bg-success text-white';
         }
     }
+
+    public function good()
+    {
+        $this->status=2;
+        return $this->save(false);
+    }
+
+    public function verybad()
+    {
+        $this->status=1;
+        return $this->save(false);
+    }
 }
